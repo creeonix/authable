@@ -9,9 +9,9 @@ defmodule Authable.Authentication.Token do
   alias Authable.Authentication.Error, as: AuthenticationError
 
   @behaviour Authable.Authentication
-  @repo Application.get_env(:authable, :repo)
-  @resource_owner Application.get_env(:authable, :resource_owner)
   @token_store Application.get_env(:authable, :token_store)
+  @source Application.get_env(:authable, :source)
+  @data_source @source[:module]
 
   @doc """
   Authenticates resource-owner using given token name and value pairs.
@@ -31,8 +31,10 @@ defmodule Authable.Authentication.Token do
         "ct123456789"}, ["read", "write"])
   """
   def authenticate({token_name, token_value}, required_scopes) do
+    IO.puts "Authentication #{token_name} #{token_value}"
+    IO.inspect(@data_source)
     token_check(
-      @repo.get_by(@token_store, value: token_value, name: token_name),
+      @data_source.get_token(token_value, token_name),
       required_scopes
     )
   end
@@ -46,7 +48,7 @@ defmodule Authable.Authentication.Token do
       scopes = Authable.Utils.String.comma_split(token.details["scope"])
       if Authable.Utils.List.subset?(scopes, required_scopes) do
         resource_owner_check(
-          @repo.get(@resource_owner, token.user_id)
+          @data_source.get_resource_owner(token)
         )
       else
         AuthenticationError.insufficient_scope(required_scopes)

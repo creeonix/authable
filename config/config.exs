@@ -45,7 +45,11 @@ config :authable,
     }
   },
   scopes: ~w(read write session),
-  renderer: Authable.Renderer.RestApi
+  renderer: Authable.Renderer.RestApi,
+  source: %{
+    module: Authable.Sources.Repo,
+    url: nil,
+  }
 
 # You can configure for your application as:
 #

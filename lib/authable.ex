@@ -130,11 +130,14 @@ defmodule Authable do
   def start(_type, _args) do
     import Supervisor.Spec
 
-    children = [
-      supervisor(@repo, [])
-    ]
+    children =
+      if @repo do
+        [supervisor(@repo, [])]
+      else
+        []
+      end
 
-    opts = [strategy: :one_for_one, name: Authable.Supervisor]
+      opts = [strategy: :one_for_one, name: Authable.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

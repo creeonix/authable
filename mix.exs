@@ -22,7 +22,7 @@ defmodule Authable.Mixfile do
     [
       mod: {Authable, []},
       applications: [:logger, :comeonin, :ecto, :postgrex,
-        :secure_random]
+        :secure_random, :httpoison]
     ]
   end
 
@@ -46,6 +46,7 @@ defmodule Authable.Mixfile do
       {:ex_machina, "~> 1.0.2", only: :test},
       {:credo, "~> 0.6", only: [:dev, :test]},
       {:ex_doc, "~> 0.14", only: :dev},
+      {:httpoison, "~> 0.12"},
       {:dialyxir, "~> 0.4", only: [:dev], runtime: false}
     ]
   end
