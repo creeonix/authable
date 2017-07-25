@@ -1,7 +1,8 @@
-# 🚪 Authable
+Forked from mustafaturan/authable
 
-[![Build Status](https://travis-ci.org/mustafaturan/authable.svg?branch=master)](https://travis-ci.org/mustafaturan/authable)
-[![Deps Status](https://beta.hexfaktor.org/badge/all/github/mustafaturan/authable.svg)](https://beta.hexfaktor.org/github/mustafaturan/authable)
+Not backward compatible with original Authable uses custom version of Shield
+
+# 🚪 Authable
 
 OAuth2 Provider implementation modules and helpers using `plug`, `ecto` and `postgres` for any `elixir` application.
 
@@ -15,7 +16,7 @@ The package can be installed as:
     
       ```elixir
       def deps do
-        [{:authable, "~> 0.8.0"}]
+        [{:authable, git: "https://github.com/creeonix/authable.git"}]
       end
       ```
 
@@ -32,7 +33,7 @@ The package can be installed as:
       ```elixir
       config :authable,
         ecto_repos: [Authable.Repo],
-        repo: Authable.Repo,
+        repo: Authable.Repo, # or nil
         resource_owner: Authable.Model.User,
         token_store: Authable.Model.Token,
         client: Authable.Model.Client,
@@ -73,6 +74,20 @@ The package can be installed as:
         If you want to disable a grant type then delete from grant types config.
 
         If you want to add a new grant type then add your own module with `authorize(params)` function and return a `Authable.Model.Token` struct.
+        
+        If you want to use authable with remote authentication like Shield:
+        
+        ```elixir
+        config :authable, Authable.Repo,
+          adapter: Ecto.Adapters.Postgres
+
+        config :authable,
+          repo: nil,
+          source: %{
+            module: Authable.Sources.Remote,
+            url: "https://your.shield.url"
+          }
+        ```
 
   4. Add database configurations for the `Authable.Repo` on env config files:
 
