@@ -8,6 +8,9 @@ use Mix.Config
 # if you want to provide default values for your application for
 # 3rd-party users, it should be done in your "mix.exs" file.
 
+config :authable, Authable.Repo,
+  adapter: Ecto.Adapters.Postgres
+
 config :authable,
   ecto_repos: [Authable.Repo],
   repo: Authable.Repo,

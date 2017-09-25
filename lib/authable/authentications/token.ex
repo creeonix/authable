@@ -31,8 +31,6 @@ defmodule Authable.Authentication.Token do
         "ct123456789"}, ["read", "write"])
   """
   def authenticate({token_name, token_value}, required_scopes) do
-    IO.puts "Authentication #{token_name} #{token_value}"
-    IO.inspect(@data_source)
     token_check(
       @data_source.get_token(token_value, token_name),
       required_scopes

@@ -1,4 +1,4 @@
-defmodule Authable.Sources.Remote do  
+defmodule Authable.Sources.Remote do
   def get_resource_owner(nil), do: nil
   def get_resource_owner(token) do
     Authable.Sources.Remote.HTTP.start()
@@ -24,7 +24,7 @@ defmodule Authable.Sources.Remote do
     @source Application.get_env(:authable, :source)
 
     def process_url(url) do
-      @source[:url] <> url 
+      @source[:url] <> url
     end
 
     def me(token) do
@@ -48,6 +48,6 @@ defmodule Authable.Sources.Remote do
           "token" => %@token_store{},
           "user" => %@resource_owner{}
         })
-    end   
-  end    
+    end
+  end
 end
